@@ -19,6 +19,7 @@ axios.get(url).then((response) => {
     const completed = todo.completed;
 
     console.log(
+      
         `
             ID: ${id}
             Title: ${title}
