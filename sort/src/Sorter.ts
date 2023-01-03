@@ -1,12 +1,11 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Sorter = void 0;
-class Sorter {
-    constructor(collection) {
-        this.collection = collection;
-    }
-    sort() {
+import { NumbersCollection } from "./NumbersCollection";
+
+export class Sorter {
+    constructor(public collection: NumbersCollection) { }
+
+    sort(): void {
         const { length } = this.collection;
+
         for (let i = 0; i < length; i++) {
             for (let j = i + 1; j < length; j++) {
                 if (this.collection.compare(j, j + 1)) {
@@ -16,4 +15,3 @@ class Sorter {
         }
     }
 }
-exports.Sorter = Sorter;
