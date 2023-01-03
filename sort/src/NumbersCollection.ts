@@ -1,4 +1,4 @@
-export class NumbersCollection {
+export class NumbersCollection{
     //sinon we can also remove the public modifier and declare the variable data as follows:
     // data:number[];
     constructor(public data: number[]) { }
