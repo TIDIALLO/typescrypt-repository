@@ -6,7 +6,6 @@ export class CsvFileReader {
 
     constructor(public filename: string) { }
 
-
     public read(): void {
         this.data = fs.readFileSync(this.filename, 'utf8')
             .split('\n')
@@ -15,7 +14,6 @@ export class CsvFileReader {
                     return row.split(',');
                 }
             );
-
-
+        
     }
 }
