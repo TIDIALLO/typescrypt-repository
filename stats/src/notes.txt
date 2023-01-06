@@ -1,0 +1,11 @@
+Dans ce projets on a vu l'utilisatoin de plusieurs notions pour la réutilisation de codes:
+1- les énumérations (enum)
+2- les tuples (type)
+3- les classes generique (la généricité) 
+4- les class abstraites
+5- l'héritage
+6- la composition
+7- héritae vs composition
+8-les délégations
+
+l'objectif était d'apprendre la réutilisation de code
