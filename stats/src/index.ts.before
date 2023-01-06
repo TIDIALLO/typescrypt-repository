@@ -1,0 +1,31 @@
+import { CsvFileReader } from "./CsvFileReader";
+import { MatchReader } from "./MatchReader";
+import { Summary } from "./Summary";
+import { WinsAnalysis } from "./Analyzers/WinsAnalysis";
+import { ConsoleReport } from "./ReportTargets/ConsoleReport";
+import { HtmlReport } from "./ReportTargets/HtmlReport";
+
+//create a  object that satisfies the DataReader interface
+// const csvFileReader = new CsvFileReader('football.csv');
+//create an instance of the MatchReader and pass in the csvFileReader
+// the DateReader interface     
+// const matchReader = new MatchReader(csvFileReader);
+// matchReader.load();
+
+
+const matchReader = MatchReader.fromCsv('football.csv');
+matchReader.load();
+
+
+//create an instance of the Summay and pass in the matchReader
+// const summay = new Summary(
+//     new WinsAnalysis('Man United'),
+//     // new ConsoleReport()
+//     new HtmlReport()
+
+// );
+const summary = Summary.winsAnalysisWithHtmlReport('Man United');
+summary.buildAndPrintReport(matchReader.matches);
+
+
+
