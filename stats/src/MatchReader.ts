@@ -14,9 +14,9 @@ export class MatchReader {
     static fromCsv(filename: string): MatchReader {
         return new MatchReader(new CsvFileReader(filename));
     }
-
-    constructor(public reader: DataReader) { }
     matches: MatchData[] = [];
+    constructor(public reader: DataReader) { }
+
 
     load(): void {
         this.reader.read();
