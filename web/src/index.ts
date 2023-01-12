@@ -1,5 +1,5 @@
 import { on } from "events";
-import { User } from "./models/User";
+import { User, UserProps } from "./models/User";
 import axios, { AxiosResponse } from 'axios';
 import { Collection } from "./models/Collection";
 
@@ -27,7 +27,11 @@ import { Collection } from "./models/Collection";
 //         console.log(response.data);
 //     });
 
-const collection = new Collection('http://localhost:3000/users')
+const collection = new Collection<User, UserProps>(
+    'http://localhost:3000/users',
+    (json: UserProps) => User.buildUser(json)
+);
+
 
 collection.on('change', () => {
     console.log('collection', collection);
