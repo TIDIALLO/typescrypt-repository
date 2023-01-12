@@ -11,11 +11,19 @@ import { User } from "./models/User";
 
 // user.set({ name: 'new name' });  
 
-const user = new User({id:1});
+// const user = new User({id:1});
+
+// user.on('change', () => {
+//     console.log(user);
+     
+// });
+
+// user.fetch()
+
+const user = User.buildUser({id:1});
 
 user.on('change', () => {
     console.log(user);
-     
 });
 
-user.fetch()
+user.fetch();

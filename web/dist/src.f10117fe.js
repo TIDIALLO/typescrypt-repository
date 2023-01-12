@@ -117,35 +117,48 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"src/models/Eventing.ts":[function(require,module,exports) {
+})({"src/models/Models.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Eventing = void 0;
-var Eventing = /** @class */function () {
-  function Eventing() {
-    var _this = this;
-    this.events = {};
-    this.on = function (eventName, callback) {
-      var handlers = _this.events[eventName] || [];
-      handlers.push(callback);
-      _this.events[eventName] = handlers;
-    };
-    this.trigger = function (eventName) {
-      var handlers = _this.events[eventName];
-      if (!handlers || handlers.length === 0) {
-        return;
-      }
-      handlers.forEach(function (handler) {
-        return handler();
-      });
-    };
+exports.Models = void 0;
+var Models = /** @class */function () {
+  function Models(attributes, events, sync) {
+    this.attributes = attributes;
+    this.events = events;
+    this.sync = sync;
+    this.on = this.events.on;
+    // get on() {
+    //     return this.events.on;
+    // }
+    this.trigger = this.events.trigger;
+    // get trigger() {
+    //     return this.events.trigger;
+    // }
+    this.get = this.attributes.get;
   }
-  return Eventing;
+  // get get() {
+  //     return this.attributes.get;
+  // }
+  Models.prototype.set = function (update) {
+    this.attributes.set(update);
+    this.events.trigger('change');
+  };
+  Models.prototype.fetch = function () {
+    var _this = this;
+    var id = this.get('id');
+    if (typeof id !== 'number') {
+      throw new Error('Cannot fetch without an id');
+    }
+    this.sync.fetch(id).then(function (response) {
+      _this.set(response.data);
+    });
+  };
+  return Models;
 }();
-exports.Eventing = Eventing;
+exports.Models = Models;
 },{}],"node_modules/axios/lib/helpers/bind.js":[function(require,module,exports) {
 'use strict';
 
@@ -5406,7 +5419,7 @@ exports.isCancel = isCancel;
 exports.CanceledError = CanceledError;
 exports.AxiosError = AxiosError;
 exports.Axios = Axios;
-},{"./lib/axios.js":"node_modules/axios/lib/axios.js"}],"src/models/Sync.ts":[function(require,module,exports) {
+},{"./lib/axios.js":"node_modules/axios/lib/axios.js"}],"src/models/ApiSync.ts":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -5417,21 +5430,16 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Sync = void 0;
+exports.ApiSync = void 0;
 var axios_1 = __importDefault(require("axios"));
-var Sync = /** @class */function () {
-  //http://localhost:3000/users/
-  function Sync(rootUrl) {
+var ApiSync = /** @class */function () {
+  function ApiSync(rootUrl) {
     this.rootUrl = rootUrl;
   }
-  Sync.prototype.fetch = function (id) {
-    return axios_1.default.get("".concat(this.rootUrl, "/").concat('id'));
+  ApiSync.prototype.fetch = function (id) {
+    return axios_1.default.get("".concat(this.rootUrl, "/").concat(id));
   };
-  Sync.prototype.fetchAll = function () {
-    return axios_1.default.get("".concat(this.rootUrl));
-  };
-  Sync.prototype.save = function (data) {
-    // const id = this.get('id');
+  ApiSync.prototype.save = function (data) {
     var id = data.id;
     if (id) {
       return axios_1.default.put("".concat(this.rootUrl, "/").concat(id), data);
@@ -5439,9 +5447,9 @@ var Sync = /** @class */function () {
       return axios_1.default.post(this.rootUrl, data);
     }
   };
-  return Sync;
+  return ApiSync;
 }();
-exports.Sync = Sync;
+exports.ApiSync = ApiSync;
 },{"axios":"node_modules/axios/index.js"}],"src/models/Attributes.ts":[function(require,module,exports) {
 "use strict";
 
@@ -5458,64 +5466,90 @@ var Attributes = /** @class */function () {
     };
   }
   Attributes.prototype.set = function (update) {
-    Object.assign(this, update);
+    //Object.assign(this.data, update);
+  };
+  Attributes.prototype.getAll = function () {
+    return this.data;
   };
   return Attributes;
 }();
 exports.Attributes = Attributes;
-},{}],"src/models/User.ts":[function(require,module,exports) {
+},{}],"src/models/Eventing.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.User = void 0;
-var Eventing_1 = require("./Eventing");
-var Sync_1 = require("./Sync");
-var Attributes_1 = require("./Attributes");
-var rootUrl = 'http://localhost:3000/users';
-var User = /** @class */function () {
-  function User(attrs) {
-    this.events = new Eventing_1.Eventing();
-    this.sync = new Sync_1.Sync(rootUrl);
-    this.attributes = new Attributes_1.Attributes(attrs);
+exports.Eventing = void 0;
+var Eventing = /** @class */function () {
+  function Eventing() {
+    var _this = this;
+    this.events = {};
+    this.on = function (eventName, callback) {
+      var handlers = _this.events[eventName] || [];
+      handlers.push(callback);
+      _this.events[eventName] = handlers;
+    };
+    this.trigger = function (eventName) {
+      var handlers = _this.events[eventName];
+      if (!handlers || handlers.length === 0) {
+        return;
+      }
+      handlers.forEach(function (handler) {
+        return handler();
+      });
+    };
   }
-  Object.defineProperty(User.prototype, "on", {
-    get: function get() {
-      return this.events.on;
-    },
-    enumerable: false,
-    configurable: true
-  });
-  Object.defineProperty(User.prototype, "trigger", {
-    get: function get() {
-      return this.events.trigger;
-    },
-    enumerable: false,
-    configurable: true
-  });
-  Object.defineProperty(User.prototype, "get", {
-    get: function get() {
-      return this.attributes.get;
-    },
-    enumerable: false,
-    configurable: true
-  });
-  User.prototype.set = function (update) {
-    this.attributes.set(update);
-    this.events.trigger('change');
+  return Eventing;
+}();
+exports.Eventing = Eventing;
+},{}],"src/models/User.ts":[function(require,module,exports) {
+"use strict";
+
+var __extends = this && this.__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p];
+    };
+    return _extendStatics(d, b);
   };
-  User.prototype.fetch = function () {
-    var id = this.attributes.get('id');
-    if (typeof id === 'number') {
-      new Error('Cannot fetch without an id');
+  return function (d, b) {
+    if (typeof b !== "function" && b !== null) throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+    _extendStatics(d, b);
+    function __() {
+      this.constructor = d;
     }
-    this.sync.fetch(id).then(function (response) {});
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.User = void 0;
+var Models_1 = require("./Models");
+var ApiSync_1 = require("./ApiSync");
+var Attributes_1 = require("./Attributes");
+var Eventing_1 = require("./Eventing");
+var rootUrl = 'http://localhost:3000/users';
+var User = /** @class */function (_super) {
+  __extends(User, _super);
+  function User() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  }
+  User.buildUser = function (attrs) {
+    return new User(new Attributes_1.Attributes(attrs), new Eventing_1.Eventing(), new ApiSync_1.ApiSync(rootUrl));
+  };
+  User.prototype.isAdminUser = function () {
+    return this.get('id') === 1;
   };
   return User;
-}();
+}(Models_1.Models);
 exports.User = User;
-},{"./Eventing":"src/models/Eventing.ts","./Sync":"src/models/Sync.ts","./Attributes":"src/models/Attributes.ts"}],"src/index.ts":[function(require,module,exports) {
+},{"./Models":"src/models/Models.ts","./ApiSync":"src/models/ApiSync.ts","./Attributes":"src/models/Attributes.ts","./Eventing":"src/models/Eventing.ts"}],"src/index.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5528,7 +5562,12 @@ var User_1 = require("./models/User");
 //     console.log('User was changed, we probaly need to update some HTML attributes ');
 // });
 // user.set({ name: 'new name' });  
-var user = new User_1.User({
+// const user = new User({id:1});
+// user.on('change', () => {
+//     console.log(user);
+// });
+// user.fetch()
+var user = User_1.User.buildUser({
   id: 1
 });
 user.on('change', function () {
@@ -5560,7 +5599,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56466" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56174" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
