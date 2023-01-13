@@ -1,37 +1,14 @@
-import { on } from "events";
-import { User, UserProps } from "./models/User";
-import axios, { AxiosResponse } from 'axios';
-import { Collection } from "./models/Collection";
+import { UserForm } from './views/UserForm';
+import { User } from './models/User';
 
-// const user = new User({ name: 'new record', age: 25 });
+const user = User.buildUser({ name: 'NAME', age: 20 });
 
-// console.log(user.get('name'));
+const root = document.getElementById('root');
 
-// user.on('change', () => {
-//     console.log('User was changed, we probaly need to update some HTML attributes ');
-// });
+if (root) {
+    const userForm = new UserForm(root, user);
 
-// user.set({ name: 'new name' });  
-
-// const user = new User({id:1});
-
-// user.on('change', () => {
-//     console.log(user);
-
-// });
-
-// user.fetch()
-
-// axios.get('http://localhost:3000/users')
-//     .then((response: AxiosResponse)  => {
-//         console.log(response.data);
-//     });
-
-const collection = User.buildUserCollection();
-
-
-collection.on('change', () => {
-    console.log('collection', collection);
-});
-
-collection.fetch();
+    userForm.render();
+} else {
+    throw new Error('Root element not found');
+}
