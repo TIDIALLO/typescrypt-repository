@@ -1,10 +1,8 @@
-
 type Callback = () => void;
 export class Eventing {
-    //ceci va stocker les events (clés) et les fonctions de rappels (valeurs)
+    // Ceci va stocker les events (clés) et les fonctions de rappels (valeurs)
     events: { [Key: string]: Callback[] } = {};
-
-    on(eventName: string, callback: Callback): void {
+    on = (eventName: string, callback: Callback): void =>{
         const handlers = this.events[eventName] || [];
         handlers.push(callback);
         this.events[eventName] = handlers;
@@ -13,9 +11,8 @@ export class Eventing {
     trigger(eventName: string): void {
         const handlers = this.events[eventName];
         if (!handlers || handlers.length === 0) return;
-        handlers.forEach(callback => {
+            handlers.forEach(callback => {
             callback();
         });
-    }
-
+    }   
 }
