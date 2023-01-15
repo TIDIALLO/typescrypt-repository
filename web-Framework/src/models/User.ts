@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { Model } from './Model';
 import { Attributes } from './Attributes';
 import { ApiSync } from './ApiSync';
@@ -8,6 +9,12 @@ import { Eventing } from './Eventing';
 import { Sync } from './Sync';
 
 >>>>>>> e649b176 (Refactoring sync)
+=======
+import { Model } from './Model';
+import { Attributes } from './Attributes';
+import { ApiSync } from './ApiSync';
+import { Eventing } from './Eventing';
+>>>>>>> c7cd8879 (shortned passthroght metho)
 export interface UserProps {
     id?: number,
     name?: string,
@@ -17,6 +24,9 @@ export interface UserProps {
 const rootUrl = 'http://localhost:3000/users'
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c7cd8879 (shortned passthroght metho)
 export class User extends Model<UserProps> {
     static buildUser(attrs: UserProps): User {
         return new User(
@@ -24,6 +34,7 @@ export class User extends Model<UserProps> {
             new Eventing(),
             new ApiSync<UserProps>(rootUrl)
         );
+<<<<<<< HEAD
     }
 =======
 export class User {
@@ -39,4 +50,7 @@ export class User {
     }
 
 >>>>>>> e649b176 (Refactoring sync)
+=======
+    }
+>>>>>>> c7cd8879 (shortned passthroght metho)
 }
