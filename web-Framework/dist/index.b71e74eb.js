@@ -533,6 +533,7 @@ function hmrAcceptRun(bundle, id) {
 
 },{}],"h7u1C":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+<<<<<<< HEAD
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
 (0, _axiosDefault.default).get("http://localhost:3000/users").then((response)=>{
@@ -1187,6 +1188,25 @@ function bind(fn, thisArg) {
 exports.default = bind;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"eKhNu"}],"eKhNu":[function(require,module,exports) {
+=======
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "User", ()=>User);
+var _eventing = require("./Eventing");
+class User {
+    constructor(data){
+        this.data = data;
+        this.events = new (0, _eventing.Eventing)();
+    }
+    get(propName) {
+        return this.data[propName];
+    }
+    set(update) {
+        Object.assign(this.data, update);
+    }
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"eKhNu","./Eventing":"7459s"}],"eKhNu":[function(require,module,exports) {
+>>>>>>> e649b176 (Refactoring sync)
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -1216,6 +1236,7 @@ exports.export = function(dest, destName, get) {
     });
 };
 
+<<<<<<< HEAD
 },{}],"cpqD8":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -4659,6 +4680,28 @@ Object.entries(HttpStatusCode).forEach(([key, value])=>{
     HttpStatusCode[value] = key;
 });
 exports.default = HttpStatusCode;
+=======
+},{}],"7459s":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Eventing", ()=>Eventing);
+class Eventing {
+    //ceci va stocker les events (clés) et les fonctions de rappels (valeurs)
+    events = {};
+    on(eventName, callback) {
+        const handlers = this.events[eventName] || [];
+        handlers.push(callback);
+        this.events[eventName] = handlers;
+    }
+    trigger(eventName) {
+        const handlers = this.events[eventName];
+        if (!handlers || handlers.length === 0) return;
+        handlers.forEach((callback)=>{
+            callback();
+        });
+    }
+}
+>>>>>>> e649b176 (Refactoring sync)
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"eKhNu"}]},["4W6w3","h7u1C"], "h7u1C", "parcelRequire94c2")
 
