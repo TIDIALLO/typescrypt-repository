@@ -1,4 +1,5 @@
 "use strict";
+<<<<<<< HEAD
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -17,3 +18,6 @@ app.use(controller_1.router);
 app.listen(3000, () => {
     console.log('Listening on port 3000');
 });
+=======
+console.log("hi there!");
+>>>>>>> 2d4c35d6 (refactoring unsion composiont-inheritence & agregation)

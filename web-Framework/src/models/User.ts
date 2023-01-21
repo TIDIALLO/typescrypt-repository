@@ -23,10 +23,6 @@ export interface UserProps {
 
 const rootUrl = 'http://localhost:3000/users'
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> c7cd8879 (shortned passthroght metho)
 export class User extends Model<UserProps> {
     static buildUser(attrs: UserProps): User {
         return new User(
@@ -34,10 +30,8 @@ export class User extends Model<UserProps> {
             new Eventing(),
             new ApiSync<UserProps>(rootUrl)
         );
-<<<<<<< HEAD
     }
-=======
-export class User {
+    export class User {
     public events:Eventing  = new Eventing()
     constructor(private data: UserProps) { };
 

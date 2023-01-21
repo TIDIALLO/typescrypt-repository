@@ -533,6 +533,7 @@ function hmrAcceptRun(bundle, id) {
 
 },{}],"h7u1C":[function(require,module,exports) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 var _user = require("./models/User");
 const user = (0, _user.User).buildUser({
@@ -1323,21 +1324,14 @@ class Attributes {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "ApiSync", ()=>ApiSync);
+=======
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+>>>>>>> 2d4c35d6 (refactoring unsion composiont-inheritence & agregation)
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
-class ApiSync {
-    constructor(rootUrl){
-        this.rootUrl = rootUrl;
-    }
-    fetch(id) {
-        return (0, _axiosDefault.default).get(`${this.rootUrl}/${id}`);
-    }
-    save(data) {
-        const id = data.id;
-        if (id) return (0, _axiosDefault.default).put(`${this.rootUrl}/${id}`, data);
-        else return (0, _axiosDefault.default).post(this.rootUrl, data);
-    }
-}
+(0, _axiosDefault.default).get("http://localhost:3000/users").then((response)=>{
+    console.log(response.data);
+});
 
 },{"axios":"jo6P5","@parcel/transformer-js/src/esmodule-helpers.js":"eKhNu"}],"jo6P5":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -1986,8 +1980,42 @@ function bind(fn, thisArg) {
 }
 exports.default = bind;
 
+<<<<<<< HEAD
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"eKhNu"}],"cpqD8":[function(require,module,exports) {
 >>>>>>> c7cd8879 (shortned passthroght metho)
+=======
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"eKhNu"}],"eKhNu":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"cpqD8":[function(require,module,exports) {
+>>>>>>> 2d4c35d6 (refactoring unsion composiont-inheritence & agregation)
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _utilsJs = require("./../utils.js");
@@ -5435,6 +5463,7 @@ exports.default = HttpStatusCode;
 },{}],"7459s":[function(require,module,exports) {
 =======
 
+<<<<<<< HEAD
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"eKhNu"}],"7459s":[function(require,module,exports) {
 >>>>>>> c7cd8879 (shortned passthroght metho)
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -5458,6 +5487,8 @@ class Eventing {
 }
 >>>>>>> e649b176 (Refactoring sync)
 
+=======
+>>>>>>> 2d4c35d6 (refactoring unsion composiont-inheritence & agregation)
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"eKhNu"}]},["4W6w3","h7u1C"], "h7u1C", "parcelRequire94c2")
 
 //# sourceMappingURL=index.b71e74eb.js.map
